@@ -1,0 +1,27 @@
+[
+  [
+    "person",
+    "holding",
+    "knife"
+  ],
+  [
+    "person",
+    "touching",
+    "pumpkin"
+  ],
+  [
+    "person",
+    "sittingon",
+    "chair"
+  ],
+  [
+    "person",
+    "infrontof",
+    "table"
+  ],
+  [
+    "person",
+    "lookingat",
+    "otherrelationship"
+  ]
+]

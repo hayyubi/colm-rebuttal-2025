@@ -1,0 +1,155 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 600px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "rgb(255,165,0)", "id": "playing_0", "label": "Playing_0", "physics": false, "shape": "dot"}, {"color": "#97c2fc", "id": "girl", "label": "girl", "physics": false, "shape": "dot"}, {"color": "#97c2fc", "id": "straps", "label": "straps", "physics": false, "shape": "dot"}, {"color": "rgb(255,165,0)", "id": "laying", "label": "Laying", "physics": false, "shape": "dot"}, {"color": "#97c2fc", "id": "baby", "label": "baby", "physics": false, "shape": "dot"}, {"color": "#97c2fc", "id": "car seat", "label": "car seat", "physics": false, "shape": "dot"}, {"color": "rgb(255,165,0)", "id": "pull_0", "label": "Pull_0", "physics": false, "shape": "dot"}, {"color": "#97c2fc", "id": "strap", "label": "strap", "physics": false, "shape": "dot"}, {"color": "rgb(255,165,0)", "id": "make noise", "label": "Make noise", "physics": false, "shape": "dot"}, {"color": "rgb(255,165,0)", "id": "kick_0", "label": "Kick_0", "physics": false, "shape": "dot"}, {"color": "rgb(255,165,0)", "id": "looking", "label": "Looking", "physics": false, "shape": "dot"}, {"color": "rgb(255,165,0)", "id": "kick_1", "label": "Kick_1", "physics": false, "shape": "dot"}, {"color": "rgb(255,165,0)", "id": "in_0", "label": "In_0", "physics": false, "shape": "dot"}, {"color": "#97c2fc", "id": "seat", "label": "seat", "physics": false, "shape": "dot"}, {"color": "rgb(255,165,0)", "id": "in_1", "label": "In_1", "physics": false, "shape": "dot"}, {"color": "#97c2fc", "id": "knees", "label": "knees", "physics": false, "shape": "dot"}, {"color": "rgb(255,165,0)", "id": "pull_1", "label": "Pull_1", "physics": false, "shape": "dot"}, {"color": "rgb(255,165,0)", "id": "say", "label": "Say", "physics": false, "shape": "dot"}, {"color": "#97c2fc", "id": "going, going, later", "label": "Going, going, later", "physics": false, "shape": "dot"}, {"color": "rgb(255,165,0)", "id": "kick_2", "label": "Kick_2", "physics": false, "shape": "dot"}, {"color": "rgb(255,165,0)", "id": "playing_1", "label": "Playing_1", "physics": false, "shape": "dot"}, {"color": "#97c2fc", "id": "seatbelt", "label": "seatbelt", "physics": false, "shape": "dot"}]);
+                  edges = new vis.DataSet([{"arrows": "to", "from": "playing_0", "label": "agent", "to": "girl"}, {"arrows": "to", "from": "playing_0", "label": "item", "to": "straps"}, {"arrows": "to", "from": "laying", "label": "agent", "to": "baby"}, {"arrows": "to", "from": "laying", "label": "place", "to": "car seat"}, {"arrows": "to", "from": "pull_0", "label": "agent", "to": "girl"}, {"arrows": "to", "from": "pull_0", "label": "item", "to": "strap"}, {"arrows": "to", "from": "make noise", "label": "agent", "to": "girl"}, {"arrows": "to", "from": "kick_0", "label": "agent", "to": "baby"}, {"arrows": "to", "from": "looking", "label": "agent", "to": "baby"}, {"arrows": "to", "from": "looking", "label": "target", "to": "girl"}, {"arrows": "to", "from": "kick_1", "label": "agent", "to": "baby"}, {"arrows": "to", "from": "in_0", "label": "agent", "to": "baby"}, {"arrows": "to", "from": "in_0", "label": "place", "to": "seat"}, {"arrows": "to", "from": "in_1", "label": "agent", "to": "girl"}, {"arrows": "to", "from": "in_1", "label": "place", "to": "knees"}, {"arrows": "to", "from": "pull_1", "label": "agent", "to": "girl"}, {"arrows": "to", "from": "pull_1", "label": "item", "to": "strap"}, {"arrows": "to", "from": "say", "label": "agent", "to": "girl"}, {"arrows": "to", "from": "say", "label": "item", "to": "going, going, later"}, {"arrows": "to", "from": "kick_2", "label": "agent", "to": "baby"}, {"arrows": "to", "from": "playing_1", "label": "agent", "to": "girl"}, {"arrows": "to", "from": "playing_1", "label": "item", "to": "seatbelt"}, {"arrows": "to", "from": "playing_0", "label": "temporal", "to": "laying"}, {"arrows": "to", "from": "playing_0", "label": "temporal", "to": "pull_0"}, {"arrows": "to", "from": "playing_0", "label": "temporal", "to": "make noise"}, {"arrows": "to", "from": "playing_0", "label": "temporal", "to": "kick_0"}, {"arrows": "to", "from": "playing_0", "label": "temporal", "to": "looking"}, {"arrows": "to", "from": "playing_0", "label": "temporal", "to": "kick_1"}, {"arrows": "to", "from": "playing_0", "label": "temporal", "to": "in_0"}, {"arrows": "to", "from": "playing_0", "label": "temporal", "to": "in_1"}, {"arrows": "to", "from": "playing_0", "label": "temporal", "to": "pull_1"}, {"arrows": "to", "from": "playing_0", "label": "temporal", "to": "say"}, {"arrows": "to", "from": "playing_0", "label": "temporal", "to": "kick_2"}, {"arrows": "to", "from": "playing_0", "label": "temporal", "to": "playing_1"}, {"arrows": "to", "from": "laying", "label": "temporal", "to": "pull_0"}, {"arrows": "to", "from": "laying", "label": "temporal", "to": "make noise"}, {"arrows": "to", "from": "laying", "label": "temporal", "to": "kick_0"}, {"arrows": "to", "from": "laying", "label": "temporal", "to": "looking"}, {"arrows": "to", "from": "laying", "label": "temporal", "to": "kick_1"}, {"arrows": "to", "from": "laying", "label": "temporal", "to": "in_0"}, {"arrows": "to", "from": "laying", "label": "temporal", "to": "in_1"}, {"arrows": "to", "from": "laying", "label": "temporal", "to": "pull_1"}, {"arrows": "to", "from": "laying", "label": "temporal", "to": "say"}, {"arrows": "to", "from": "laying", "label": "temporal", "to": "kick_2"}, {"arrows": "to", "from": "laying", "label": "temporal", "to": "playing_1"}, {"arrows": "to", "from": "pull_0", "label": "causal", "to": "make noise"}, {"arrows": "to", "from": "pull_0", "label": "causal", "to": "kick_0"}, {"arrows": "to", "from": "pull_0", "label": "temporal", "to": "make noise"}, {"arrows": "to", "from": "pull_0", "label": "temporal", "to": "kick_0"}, {"arrows": "to", "from": "pull_0", "label": "temporal", "to": "looking"}, {"arrows": "to", "from": "pull_0", "label": "temporal", "to": "kick_1"}, {"arrows": "to", "from": "pull_0", "label": "temporal", "to": "in_0"}, {"arrows": "to", "from": "pull_0", "label": "temporal", "to": "in_1"}, {"arrows": "to", "from": "pull_0", "label": "temporal", "to": "pull_1"}, {"arrows": "to", "from": "pull_0", "label": "temporal", "to": "say"}, {"arrows": "to", "from": "pull_0", "label": "temporal", "to": "kick_2"}, {"arrows": "to", "from": "pull_0", "label": "temporal", "to": "playing_1"}, {"arrows": "to", "from": "make noise", "label": "temporal", "to": "looking"}, {"arrows": "to", "from": "make noise", "label": "temporal", "to": "kick_1"}, {"arrows": "to", "from": "make noise", "label": "temporal", "to": "in_0"}, {"arrows": "to", "from": "make noise", "label": "temporal", "to": "in_1"}, {"arrows": "to", "from": "make noise", "label": "temporal", "to": "pull_1"}, {"arrows": "to", "from": "make noise", "label": "temporal", "to": "say"}, {"arrows": "to", "from": "make noise", "label": "temporal", "to": "kick_2"}, {"arrows": "to", "from": "make noise", "label": "temporal", "to": "playing_1"}, {"arrows": "to", "from": "kick_0", "label": "temporal", "to": "looking"}, {"arrows": "to", "from": "kick_0", "label": "temporal", "to": "kick_1"}, {"arrows": "to", "from": "kick_0", "label": "temporal", "to": "in_0"}, {"arrows": "to", "from": "kick_0", "label": "temporal", "to": "in_1"}, {"arrows": "to", "from": "kick_0", "label": "temporal", "to": "pull_1"}, {"arrows": "to", "from": "kick_0", "label": "temporal", "to": "say"}, {"arrows": "to", "from": "kick_0", "label": "temporal", "to": "kick_2"}, {"arrows": "to", "from": "kick_0", "label": "temporal", "to": "playing_1"}, {"arrows": "to", "from": "looking", "label": "temporal", "to": "in_0"}, {"arrows": "to", "from": "looking", "label": "temporal", "to": "in_1"}, {"arrows": "to", "from": "looking", "label": "temporal", "to": "pull_1"}, {"arrows": "to", "from": "looking", "label": "temporal", "to": "say"}, {"arrows": "to", "from": "looking", "label": "temporal", "to": "kick_2"}, {"arrows": "to", "from": "looking", "label": "temporal", "to": "playing_1"}, {"arrows": "to", "from": "kick_1", "label": "temporal", "to": "in_0"}, {"arrows": "to", "from": "kick_1", "label": "temporal", "to": "in_1"}, {"arrows": "to", "from": "kick_1", "label": "temporal", "to": "pull_1"}, {"arrows": "to", "from": "kick_1", "label": "temporal", "to": "say"}, {"arrows": "to", "from": "kick_1", "label": "temporal", "to": "kick_2"}, {"arrows": "to", "from": "kick_1", "label": "temporal", "to": "playing_1"}, {"arrows": "to", "from": "in_0", "label": "temporal", "to": "in_1"}, {"arrows": "to", "from": "in_0", "label": "temporal", "to": "pull_1"}, {"arrows": "to", "from": "in_0", "label": "temporal", "to": "say"}, {"arrows": "to", "from": "in_0", "label": "temporal", "to": "kick_2"}, {"arrows": "to", "from": "in_0", "label": "temporal", "to": "playing_1"}, {"arrows": "to", "from": "in_1", "label": "temporal", "to": "pull_1"}, {"arrows": "to", "from": "in_1", "label": "temporal", "to": "say"}, {"arrows": "to", "from": "in_1", "label": "temporal", "to": "kick_2"}, {"arrows": "to", "from": "in_1", "label": "temporal", "to": "playing_1"}, {"arrows": "to", "from": "pull_1", "label": "causal", "to": "say"}, {"arrows": "to", "from": "pull_1", "label": "temporal", "to": "say"}, {"arrows": "to", "from": "pull_1", "label": "temporal", "to": "kick_2"}, {"arrows": "to", "from": "pull_1", "label": "temporal", "to": "playing_1"}, {"arrows": "to", "from": "say", "label": "temporal", "to": "kick_2"}, {"arrows": "to", "from": "say", "label": "temporal", "to": "playing_1"}, {"arrows": "to", "from": "kick_2", "label": "temporal", "to": "playing_1"}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>

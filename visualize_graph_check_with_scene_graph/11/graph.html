@@ -1,0 +1,155 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 600px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "rgb(255,165,0)", "id": "standing", "label": "Standing", "physics": false, "shape": "dot"}, {"color": "#97c2fc", "id": "man in brown suit", "label": "man in brown suit", "physics": false, "shape": "dot"}, {"color": "#97c2fc", "id": "podium", "label": "podium", "physics": false, "shape": "dot"}, {"color": "rgb(255,165,0)", "id": "talking", "label": "Talking", "physics": false, "shape": "dot"}, {"color": "#97c2fc", "id": "audience", "label": "audience", "physics": false, "shape": "dot"}, {"color": "rgb(255,165,0)", "id": "being", "label": "Being", "physics": false, "shape": "dot"}, {"color": "#97c2fc", "id": "laptop", "label": "laptop", "physics": false, "shape": "dot"}, {"color": "#97c2fc", "id": "foreground", "label": "foreground", "physics": false, "shape": "dot"}, {"color": "rgb(255,165,0)", "id": "bending", "label": "Bending", "physics": false, "shape": "dot"}, {"color": "#97c2fc", "id": "woman in purple", "label": "woman in purple", "physics": false, "shape": "dot"}, {"color": "#97c2fc", "id": "table", "label": "table", "physics": false, "shape": "dot"}, {"color": "rgb(255,165,0)", "id": "being_1", "label": "Being_1", "physics": false, "shape": "dot"}, {"color": "#97c2fc", "id": "bottle", "label": "bottle", "physics": false, "shape": "dot"}, {"color": "rgb(255,165,0)", "id": "resting_0", "label": "Resting_0", "physics": false, "shape": "dot"}, {"color": "#97c2fc", "id": "right arm", "label": "right arm", "physics": false, "shape": "dot"}, {"color": "rgb(255,165,0)", "id": "holding", "label": "Holding", "physics": false, "shape": "dot"}, {"color": "#97c2fc", "id": "sheet of paper", "label": "sheet of paper", "physics": false, "shape": "dot"}, {"color": "#97c2fc", "id": "right hand", "label": "right hand", "physics": false, "shape": "dot"}, {"color": "rgb(255,165,0)", "id": "resting_1", "label": "Resting_1", "physics": false, "shape": "dot"}, {"color": "#97c2fc", "id": "left hand", "label": "left hand", "physics": false, "shape": "dot"}, {"color": "#97c2fc", "id": "watch", "label": "watch", "physics": false, "shape": "dot"}, {"color": "rgb(255,165,0)", "id": "sitting", "label": "Sitting", "physics": false, "shape": "dot"}, {"color": "#97c2fc", "id": "woman", "label": "woman", "physics": false, "shape": "dot"}, {"color": "#97c2fc", "id": "background", "label": "background", "physics": false, "shape": "dot"}, {"color": "rgb(255,165,0)", "id": "looking", "label": "Looking", "physics": false, "shape": "dot"}]);
+                  edges = new vis.DataSet([{"arrows": "to", "from": "standing", "label": "agent", "to": "man in brown suit"}, {"arrows": "to", "from": "standing", "label": "location", "to": "podium"}, {"arrows": "to", "from": "talking", "label": "agent", "to": "man in brown suit"}, {"arrows": "to", "from": "talking", "label": "target", "to": "audience"}, {"arrows": "to", "from": "being", "label": "agent", "to": "laptop"}, {"arrows": "to", "from": "being", "label": "location", "to": "foreground"}, {"arrows": "to", "from": "bending", "label": "agent", "to": "woman in purple"}, {"arrows": "to", "from": "bending", "label": "location", "to": "table"}, {"arrows": "to", "from": "being_1", "label": "agent", "to": "bottle"}, {"arrows": "to", "from": "being_1", "label": "location", "to": "podium"}, {"arrows": "to", "from": "resting_0", "label": "agent", "to": "woman in purple"}, {"arrows": "to", "from": "resting_0", "label": "body_part", "to": "right arm"}, {"arrows": "to", "from": "resting_0", "label": "location", "to": "table"}, {"arrows": "to", "from": "holding", "label": "agent", "to": "man in brown suit"}, {"arrows": "to", "from": "holding", "label": "item", "to": "sheet of paper"}, {"arrows": "to", "from": "holding", "label": "body_part", "to": "right hand"}, {"arrows": "to", "from": "resting_1", "label": "agent", "to": "woman in purple"}, {"arrows": "to", "from": "resting_1", "label": "body_part", "to": "left hand"}, {"arrows": "to", "from": "resting_1", "label": "location", "to": "watch"}, {"arrows": "to", "from": "sitting", "label": "agent", "to": "woman"}, {"arrows": "to", "from": "sitting", "label": "location", "to": "background"}, {"arrows": "to", "from": "looking", "label": "agent", "to": "woman in purple"}, {"arrows": "to", "from": "looking", "label": "target", "to": "watch"}, {"arrows": "to", "from": "standing", "label": "temporal", "to": "talking"}, {"arrows": "to", "from": "standing", "label": "temporal", "to": "being"}, {"arrows": "to", "from": "standing", "label": "temporal", "to": "bending"}, {"arrows": "to", "from": "standing", "label": "temporal", "to": "being_1"}, {"arrows": "to", "from": "standing", "label": "temporal", "to": "resting_0"}, {"arrows": "to", "from": "standing", "label": "temporal", "to": "holding"}, {"arrows": "to", "from": "standing", "label": "temporal", "to": "resting_1"}, {"arrows": "to", "from": "standing", "label": "temporal", "to": "sitting"}, {"arrows": "to", "from": "standing", "label": "temporal", "to": "looking"}, {"arrows": "to", "from": "talking", "label": "temporal", "to": "being"}, {"arrows": "to", "from": "talking", "label": "temporal", "to": "bending"}, {"arrows": "to", "from": "talking", "label": "temporal", "to": "being_1"}, {"arrows": "to", "from": "talking", "label": "temporal", "to": "resting_0"}, {"arrows": "to", "from": "talking", "label": "temporal", "to": "holding"}, {"arrows": "to", "from": "talking", "label": "temporal", "to": "resting_1"}, {"arrows": "to", "from": "talking", "label": "temporal", "to": "sitting"}, {"arrows": "to", "from": "talking", "label": "temporal", "to": "looking"}, {"arrows": "to", "from": "being", "label": "temporal", "to": "bending"}, {"arrows": "to", "from": "being", "label": "temporal", "to": "being_1"}, {"arrows": "to", "from": "being", "label": "temporal", "to": "resting_0"}, {"arrows": "to", "from": "being", "label": "temporal", "to": "holding"}, {"arrows": "to", "from": "being", "label": "temporal", "to": "resting_1"}, {"arrows": "to", "from": "being", "label": "temporal", "to": "sitting"}, {"arrows": "to", "from": "being", "label": "temporal", "to": "looking"}, {"arrows": "to", "from": "bending", "label": "temporal", "to": "being_1"}, {"arrows": "to", "from": "bending", "label": "temporal", "to": "resting_0"}, {"arrows": "to", "from": "bending", "label": "temporal", "to": "holding"}, {"arrows": "to", "from": "bending", "label": "temporal", "to": "resting_1"}, {"arrows": "to", "from": "bending", "label": "temporal", "to": "sitting"}, {"arrows": "to", "from": "bending", "label": "temporal", "to": "looking"}, {"arrows": "to", "from": "being_1", "label": "temporal", "to": "resting_0"}, {"arrows": "to", "from": "being_1", "label": "temporal", "to": "holding"}, {"arrows": "to", "from": "being_1", "label": "temporal", "to": "resting_1"}, {"arrows": "to", "from": "being_1", "label": "temporal", "to": "sitting"}, {"arrows": "to", "from": "being_1", "label": "temporal", "to": "looking"}, {"arrows": "to", "from": "resting_0", "label": "temporal", "to": "holding"}, {"arrows": "to", "from": "resting_0", "label": "temporal", "to": "resting_1"}, {"arrows": "to", "from": "resting_0", "label": "temporal", "to": "sitting"}, {"arrows": "to", "from": "resting_0", "label": "temporal", "to": "looking"}, {"arrows": "to", "from": "holding", "label": "temporal", "to": "resting_1"}, {"arrows": "to", "from": "holding", "label": "temporal", "to": "sitting"}, {"arrows": "to", "from": "holding", "label": "temporal", "to": "looking"}, {"arrows": "to", "from": "resting_1", "label": "temporal", "to": "sitting"}, {"arrows": "to", "from": "resting_1", "label": "temporal", "to": "looking"}, {"arrows": "to", "from": "sitting", "label": "temporal", "to": "looking"}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>

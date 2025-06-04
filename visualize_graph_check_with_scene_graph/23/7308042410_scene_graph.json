@@ -1,0 +1,22 @@
+[
+  [
+    "person",
+    "sittingon",
+    "floor"
+  ],
+  [
+    "person",
+    "touching",
+    "dish"
+  ],
+  [
+    "person",
+    "wearing",
+    "clothes"
+  ],
+  [
+    "person",
+    "lookingat",
+    "dish"
+  ]
+]

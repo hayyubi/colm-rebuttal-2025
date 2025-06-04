@@ -1,0 +1,17 @@
+[
+  [
+    "person",
+    "sittingon",
+    "person"
+  ],
+  [
+    "person",
+    "lyingon",
+    "floor"
+  ],
+  [
+    "person",
+    "lookingat",
+    "phonecamera"
+  ]
+]

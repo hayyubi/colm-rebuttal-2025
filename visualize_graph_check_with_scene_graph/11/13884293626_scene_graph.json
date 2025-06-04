@@ -1,0 +1,37 @@
+[
+  [
+    "person",
+    "sittingon",
+    "chair"
+  ],
+  [
+    "person",
+    "leaningon",
+    "table"
+  ],
+  [
+    "laptop",
+    "onthe",
+    "table"
+  ],
+  [
+    "papernotebook",
+    "onthe",
+    "table"
+  ],
+  [
+    "person",
+    "standingon",
+    "floor"
+  ],
+  [
+    "cupglassbottle",
+    "above",
+    "table"
+  ],
+  [
+    "laptop",
+    "infrontof",
+    "chair"
+  ]
+]

@@ -1,0 +1,155 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 600px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "rgb(255,165,0)", "id": "ice skating_0", "label": "Ice skating_0", "physics": false, "shape": "dot"}, {"color": "#97c2fc", "id": "boy", "label": "boy", "physics": false, "shape": "dot"}, {"color": "#97c2fc", "id": "frozen lake", "label": "frozen lake", "physics": false, "shape": "dot"}, {"color": "rgb(255,165,0)", "id": "pulling_0", "label": "Pulling_0", "physics": false, "shape": "dot"}, {"color": "#97c2fc", "id": "sled", "label": "sled", "physics": false, "shape": "dot"}, {"color": "rgb(255,165,0)", "id": "sitting_0", "label": "Sitting_0", "physics": false, "shape": "dot"}, {"color": "#97c2fc", "id": "two babies", "label": "two babies", "physics": false, "shape": "dot"}, {"color": "rgb(255,165,0)", "id": "watching_0", "label": "Watching_0", "physics": false, "shape": "dot"}, {"color": "#97c2fc", "id": "woman", "label": "woman", "physics": false, "shape": "dot"}, {"color": "#97c2fc", "id": "boy pulling sled", "label": "boy pulling sled", "physics": false, "shape": "dot"}, {"color": "rgb(255,165,0)", "id": "moving forward_0", "label": "Moving forward_0", "physics": false, "shape": "dot"}, {"color": "rgb(255,165,0)", "id": "pulling_1", "label": "Pulling_1", "physics": false, "shape": "dot"}, {"color": "rgb(255,165,0)", "id": "ice skating_1", "label": "Ice skating_1", "physics": false, "shape": "dot"}]);
+                  edges = new vis.DataSet([{"arrows": "to", "from": "ice skating_0", "label": "agent", "to": "boy"}, {"arrows": "to", "from": "ice skating_0", "label": "location", "to": "frozen lake"}, {"arrows": "to", "from": "pulling_0", "label": "agent", "to": "boy"}, {"arrows": "to", "from": "pulling_0", "label": "item", "to": "sled"}, {"arrows": "to", "from": "sitting_0", "label": "agent", "to": "two babies"}, {"arrows": "to", "from": "sitting_0", "label": "location", "to": "sled"}, {"arrows": "to", "from": "watching_0", "label": "agent", "to": "woman"}, {"arrows": "to", "from": "watching_0", "label": "item", "to": "boy pulling sled"}, {"arrows": "to", "from": "moving forward_0", "label": "agent", "to": "two babies"}, {"arrows": "to", "from": "pulling_1", "label": "agent", "to": "boy"}, {"arrows": "to", "from": "pulling_1", "label": "item", "to": "two babies"}, {"arrows": "to", "from": "ice skating_1", "label": "agent", "to": "boy"}, {"arrows": "to", "from": "ice skating_0", "label": "hierarchical", "to": "pulling_0"}, {"arrows": "to", "from": "ice skating_0", "label": "hierarchical", "to": "sitting_0"}, {"arrows": "to", "from": "ice skating_0", "label": "hierarchical", "to": "watching_0"}, {"arrows": "to", "from": "ice skating_0", "label": "hierarchical", "to": "moving forward_0"}, {"arrows": "to", "from": "ice skating_0", "label": "hierarchical", "to": "pulling_1"}, {"arrows": "to", "from": "ice skating_0", "label": "hierarchical", "to": "ice skating_1"}, {"arrows": "to", "from": "pulling_0", "label": "temporal", "to": "watching_0"}, {"arrows": "to", "from": "pulling_0", "label": "temporal", "to": "moving forward_0"}, {"arrows": "to", "from": "pulling_0", "label": "temporal", "to": "pulling_1"}, {"arrows": "to", "from": "pulling_0", "label": "temporal", "to": "ice skating_1"}, {"arrows": "to", "from": "sitting_0", "label": "temporal", "to": "watching_0"}, {"arrows": "to", "from": "sitting_0", "label": "temporal", "to": "moving forward_0"}, {"arrows": "to", "from": "sitting_0", "label": "temporal", "to": "pulling_1"}, {"arrows": "to", "from": "sitting_0", "label": "temporal", "to": "ice skating_1"}, {"arrows": "to", "from": "watching_0", "label": "temporal", "to": "moving forward_0"}, {"arrows": "to", "from": "watching_0", "label": "temporal", "to": "pulling_1"}, {"arrows": "to", "from": "watching_0", "label": "temporal", "to": "ice skating_1"}, {"arrows": "to", "from": "moving forward_0", "label": "causal", "to": "pulling_1"}, {"arrows": "to", "from": "moving forward_0", "label": "temporal", "to": "pulling_1"}, {"arrows": "to", "from": "moving forward_0", "label": "temporal", "to": "ice skating_1"}, {"arrows": "to", "from": "pulling_1", "label": "hierarchical", "to": "ice skating_1"}, {"arrows": "to", "from": "pulling_1", "label": "temporal", "to": "ice skating_1"}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>

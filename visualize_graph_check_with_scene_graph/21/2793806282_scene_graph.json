@@ -1,0 +1,32 @@
+[
+  [
+    "person",
+    "carrying",
+    "dog"
+  ],
+  [
+    "dog",
+    "wearing",
+    "clothes"
+  ],
+  [
+    "person",
+    "in",
+    "pool"
+  ],
+  [
+    "dog",
+    "in",
+    "pool"
+  ],
+  [
+    "person",
+    "holding",
+    "dog"
+  ],
+  [
+    "person",
+    "touching",
+    "dog"
+  ]
+]

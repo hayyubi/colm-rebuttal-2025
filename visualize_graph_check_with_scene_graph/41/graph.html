@@ -1,0 +1,155 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 600px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "rgb(255,165,0)", "id": "playing_0", "label": "Playing_0", "physics": false, "shape": "dot"}, {"color": "#97c2fc", "id": "baby", "label": "baby", "physics": false, "shape": "dot"}, {"color": "#97c2fc", "id": "silver ipod", "label": "silver ipod", "physics": false, "shape": "dot"}, {"color": "rgb(255,165,0)", "id": "on_0", "label": "On_0", "physics": false, "shape": "dot"}, {"color": "#97c2fc", "id": "books", "label": "books", "physics": false, "shape": "dot"}, {"color": "#97c2fc", "id": "shelf", "label": "shelf", "physics": false, "shape": "dot"}, {"color": "rgb(255,165,0)", "id": "make sounds_0", "label": "Make sounds_0", "physics": false, "shape": "dot"}, {"color": "#97c2fc", "id": "ipod", "label": "ipod", "physics": false, "shape": "dot"}, {"color": "rgb(255,165,0)", "id": "more enthusiastic_0", "label": "More enthusiastic_0", "physics": false, "shape": "dot"}, {"color": "rgb(255,165,0)", "id": "put down_0", "label": "Put down_0", "physics": false, "shape": "dot"}, {"color": "rgb(255,165,0)", "id": "crawl_0", "label": "Crawl_0", "physics": false, "shape": "dot"}, {"color": "#97c2fc", "id": "forward", "label": "forward", "physics": false, "shape": "dot"}, {"color": "rgb(255,165,0)", "id": "help_0", "label": "Help_0", "physics": false, "shape": "dot"}, {"color": "#97c2fc", "id": "lady", "label": "lady", "physics": false, "shape": "dot"}, {"color": "rgb(255,165,0)", "id": "resist_0", "label": "Resist_0", "physics": false, "shape": "dot"}, {"color": "rgb(255,165,0)", "id": "open_0", "label": "Open_0", "physics": false, "shape": "dot"}, {"color": "rgb(255,165,0)", "id": "playing_1", "label": "Playing_1", "physics": false, "shape": "dot"}, {"color": "rgb(255,165,0)", "id": "make sounds_1", "label": "Make sounds_1", "physics": false, "shape": "dot"}, {"color": "rgb(255,165,0)", "id": "crawl_1", "label": "Crawl_1", "physics": false, "shape": "dot"}, {"color": "rgb(255,165,0)", "id": "playing_2", "label": "Playing_2", "physics": false, "shape": "dot"}, {"color": "#97c2fc", "id": "stainless steel pot", "label": "stainless steel pot", "physics": false, "shape": "dot"}, {"color": "rgb(255,165,0)", "id": "bang_0", "label": "Bang_0", "physics": false, "shape": "dot"}, {"color": "#97c2fc", "id": "ground", "label": "ground", "physics": false, "shape": "dot"}, {"color": "rgb(255,165,0)", "id": "play_0", "label": "Play_0", "physics": false, "shape": "dot"}, {"color": "rgb(255,165,0)", "id": "standing_0", "label": "Standing_0", "physics": false, "shape": "dot"}, {"color": "#97c2fc", "id": "same spot", "label": "same spot", "physics": false, "shape": "dot"}, {"color": "rgb(255,165,0)", "id": "watch_0", "label": "Watch_0", "physics": false, "shape": "dot"}, {"color": "rgb(255,165,0)", "id": "look around_0", "label": "Look around_0", "physics": false, "shape": "dot"}, {"color": "rgb(255,165,0)", "id": "help_1", "label": "Help_1", "physics": false, "shape": "dot"}, {"color": "rgb(255,165,0)", "id": "find_0", "label": "Find_0", "physics": false, "shape": "dot"}, {"color": "#97c2fc", "id": "new toy", "label": "new toy", "physics": false, "shape": "dot"}, {"color": "rgb(255,165,0)", "id": "playing_3", "label": "Playing_3", "physics": false, "shape": "dot"}, {"color": "rgb(255,165,0)", "id": "excited_0", "label": "Excited_0", "physics": false, "shape": "dot"}, {"color": "rgb(255,165,0)", "id": "end_0", "label": "End_0", "physics": false, "shape": "dot"}]);
+                  edges = new vis.DataSet([{"arrows": "to", "from": "playing_0", "label": "agent", "to": "baby"}, {"arrows": "to", "from": "playing_0", "label": "item", "to": "silver ipod"}, {"arrows": "to", "from": "on_0", "label": "agent", "to": "books"}, {"arrows": "to", "from": "on_0", "label": "location", "to": "shelf"}, {"arrows": "to", "from": "make sounds_0", "label": "agent", "to": "baby"}, {"arrows": "to", "from": "make sounds_0", "label": "item", "to": "ipod"}, {"arrows": "to", "from": "more enthusiastic_0", "label": "agent", "to": "baby"}, {"arrows": "to", "from": "put down_0", "label": "agent", "to": "baby"}, {"arrows": "to", "from": "put down_0", "label": "item", "to": "ipod"}, {"arrows": "to", "from": "crawl_0", "label": "agent", "to": "baby"}, {"arrows": "to", "from": "crawl_0", "label": "direction", "to": "forward"}, {"arrows": "to", "from": "help_0", "label": "agent", "to": "lady"}, {"arrows": "to", "from": "help_0", "label": "target", "to": "baby"}, {"arrows": "to", "from": "help_0", "label": "item", "to": "ipod"}, {"arrows": "to", "from": "resist_0", "label": "agent", "to": "baby"}, {"arrows": "to", "from": "open_0", "label": "agent", "to": "lady"}, {"arrows": "to", "from": "open_0", "label": "target", "to": "ipod"}, {"arrows": "to", "from": "playing_1", "label": "agent", "to": "baby"}, {"arrows": "to", "from": "playing_1", "label": "item", "to": "ipod"}, {"arrows": "to", "from": "make sounds_1", "label": "agent", "to": "baby"}, {"arrows": "to", "from": "crawl_1", "label": "agent", "to": "baby"}, {"arrows": "to", "from": "playing_2", "label": "agent", "to": "baby"}, {"arrows": "to", "from": "playing_2", "label": "item", "to": "stainless steel pot"}, {"arrows": "to", "from": "bang_0", "label": "agent", "to": "baby"}, {"arrows": "to", "from": "bang_0", "label": "item", "to": "stainless steel pot"}, {"arrows": "to", "from": "bang_0", "label": "location", "to": "ground"}, {"arrows": "to", "from": "play_0", "label": "agent", "to": "baby"}, {"arrows": "to", "from": "play_0", "label": "item", "to": "stainless steel pot"}, {"arrows": "to", "from": "standing_0", "label": "agent", "to": "lady"}, {"arrows": "to", "from": "standing_0", "label": "location", "to": "same spot"}, {"arrows": "to", "from": "watch_0", "label": "agent", "to": "lady"}, {"arrows": "to", "from": "watch_0", "label": "target", "to": "baby"}, {"arrows": "to", "from": "look around_0", "label": "agent", "to": "baby"}, {"arrows": "to", "from": "help_1", "label": "agent", "to": "lady"}, {"arrows": "to", "from": "help_1", "label": "target", "to": "baby"}, {"arrows": "to", "from": "find_0", "label": "agent", "to": "baby"}, {"arrows": "to", "from": "find_0", "label": "item", "to": "new toy"}, {"arrows": "to", "from": "playing_3", "label": "agent", "to": "baby"}, {"arrows": "to", "from": "playing_3", "label": "item", "to": "new toy"}, {"arrows": "to", "from": "excited_0", "label": "agent", "to": "baby"}, {"arrows": "to", "from": "playing_0", "label": "temporal", "to": "on_0"}, {"arrows": "to", "from": "playing_0", "label": "temporal", "to": "make sounds_0"}, {"arrows": "to", "from": "on_0", "label": "temporal", "to": "make sounds_0"}, {"arrows": "to", "from": "make sounds_0", "label": "causal", "to": "more enthusiastic_0"}, {"arrows": "to", "from": "make sounds_0", "label": "temporal", "to": "more enthusiastic_0"}, {"arrows": "to", "from": "make sounds_0", "label": "temporal", "to": "put down_0"}, {"arrows": "to", "from": "make sounds_0", "label": "temporal", "to": "crawl_0"}, {"arrows": "to", "from": "make sounds_0", "label": "temporal", "to": "help_0"}, {"arrows": "to", "from": "more enthusiastic_0", "label": "causal", "to": "put down_0"}, {"arrows": "to", "from": "more enthusiastic_0", "label": "causal", "to": "crawl_0"}, {"arrows": "to", "from": "more enthusiastic_0", "label": "temporal", "to": "put down_0"}, {"arrows": "to", "from": "more enthusiastic_0", "label": "temporal", "to": "crawl_0"}, {"arrows": "to", "from": "put down_0", "label": "temporal", "to": "crawl_0"}, {"arrows": "to", "from": "put down_0", "label": "temporal", "to": "help_0"}, {"arrows": "to", "from": "crawl_0", "label": "temporal", "to": "help_0"}, {"arrows": "to", "from": "help_0", "label": "temporal", "to": "resist_0"}, {"arrows": "to", "from": "help_0", "label": "temporal", "to": "open_0"}, {"arrows": "to", "from": "help_0", "label": "causal", "to": "open_0"}, {"arrows": "to", "from": "resist_0", "label": "temporal", "to": "open_0"}, {"arrows": "to", "from": "open_0", "label": "causal", "to": "playing_1"}, {"arrows": "to", "from": "open_0", "label": "causal", "to": "make sounds_1"}, {"arrows": "to", "from": "open_0", "label": "temporal", "to": "playing_1"}, {"arrows": "to", "from": "open_0", "label": "temporal", "to": "make sounds_1"}, {"arrows": "to", "from": "playing_1", "label": "temporal", "to": "make sounds_1"}, {"arrows": "to", "from": "playing_1", "label": "temporal", "to": "crawl_1"}, {"arrows": "to", "from": "playing_1", "label": "temporal", "to": "playing_2"}, {"arrows": "to", "from": "make sounds_1", "label": "temporal", "to": "crawl_1"}, {"arrows": "to", "from": "make sounds_1", "label": "temporal", "to": "playing_2"}, {"arrows": "to", "from": "crawl_1", "label": "temporal", "to": "playing_2"}, {"arrows": "to", "from": "playing_2", "label": "temporal", "to": "bang_0"}, {"arrows": "to", "from": "playing_2", "label": "temporal", "to": "play_0"}, {"arrows": "to", "from": "playing_2", "label": "temporal", "to": "standing_0"}, {"arrows": "to", "from": "playing_2", "label": "temporal", "to": "watch_0"}, {"arrows": "to", "from": "bang_0", "label": "temporal", "to": "play_0"}, {"arrows": "to", "from": "bang_0", "label": "temporal", "to": "standing_0"}, {"arrows": "to", "from": "bang_0", "label": "temporal", "to": "watch_0"}, {"arrows": "to", "from": "play_0", "label": "temporal", "to": "standing_0"}, {"arrows": "to", "from": "play_0", "label": "temporal", "to": "watch_0"}, {"arrows": "to", "from": "standing_0", "label": "temporal", "to": "watch_0"}, {"arrows": "to", "from": "standing_0", "label": "temporal", "to": "look around_0"}, {"arrows": "to", "from": "watch_0", "label": "temporal", "to": "look around_0"}, {"arrows": "to", "from": "look around_0", "label": "causal", "to": "help_1"}, {"arrows": "to", "from": "look around_0", "label": "temporal", "to": "help_1"}, {"arrows": "to", "from": "look around_0", "label": "temporal", "to": "find_0"}, {"arrows": "to", "from": "look around_0", "label": "temporal", "to": "playing_3"}, {"arrows": "to", "from": "look around_0", "label": "temporal", "to": "excited_0"}, {"arrows": "to", "from": "look around_0", "label": "temporal", "to": "end_0"}, {"arrows": "to", "from": "help_1", "label": "temporal", "to": "find_0"}, {"arrows": "to", "from": "help_1", "label": "temporal", "to": "playing_3"}, {"arrows": "to", "from": "help_1", "label": "temporal", "to": "excited_0"}, {"arrows": "to", "from": "help_1", "label": "temporal", "to": "end_0"}, {"arrows": "to", "from": "help_1", "label": "causal", "to": "find_0"}, {"arrows": "to", "from": "find_0", "label": "temporal", "to": "playing_3"}, {"arrows": "to", "from": "find_0", "label": "temporal", "to": "excited_0"}, {"arrows": "to", "from": "find_0", "label": "temporal", "to": "end_0"}, {"arrows": "to", "from": "find_0", "label": "causal", "to": "playing_3"}, {"arrows": "to", "from": "playing_3", "label": "temporal", "to": "excited_0"}, {"arrows": "to", "from": "playing_3", "label": "temporal", "to": "end_0"}, {"arrows": "to", "from": "playing_3", "label": "causal", "to": "excited_0"}, {"arrows": "to", "from": "excited_0", "label": "temporal", "to": "end_0"}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>

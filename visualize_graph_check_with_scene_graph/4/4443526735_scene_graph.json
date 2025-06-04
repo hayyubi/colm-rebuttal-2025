@@ -1,0 +1,27 @@
+[
+  [
+    "person",
+    "holding",
+    "toy"
+  ],
+  [
+    "person",
+    "in",
+    "chair"
+  ],
+  [
+    "chair",
+    "onthesideof",
+    "door"
+  ],
+  [
+    "door",
+    "onthesideof",
+    "floor"
+  ],
+  [
+    "person",
+    "onthesideof",
+    "floor"
+  ]
+]

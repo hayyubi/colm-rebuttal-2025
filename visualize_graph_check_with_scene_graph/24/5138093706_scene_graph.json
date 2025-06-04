@@ -1,0 +1,22 @@
+[
+  [
+    "person",
+    "lyingon",
+    "floor"
+  ],
+  [
+    "person",
+    "climbing",
+    "doorway"
+  ],
+  [
+    "person",
+    "touching",
+    "door"
+  ],
+  [
+    "person",
+    "climbing",
+    "doorway"
+  ]
+]

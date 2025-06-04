@@ -1,0 +1,17 @@
+[
+  [
+    "person",
+    "standingon",
+    "floor"
+  ],
+  [
+    "person",
+    "wearing",
+    "clothes"
+  ],
+  [
+    "person",
+    "sittingon",
+    "chair"
+  ]
+]
