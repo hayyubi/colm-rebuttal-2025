@@ -1,0 +1,76 @@
+You are an expert in understanding and analysing videos.
+
+Given a video, your task is to generate a scene graph. The scene graphs contain a list of subject object relationships. For example, [man, carrying, box]. The scene graph should be in this format:
+[[sub_1, pred_1, obj_1],
+[sub_2, pred_2, obj_2],
+[sub_3, pred_3, obj_3],
+...
+]
+
+Where sub_1 is the subject (protagonist) of ith relationship, obj_2 is the object (on whom action is performed) of the ith relationship, and pred_i is the predicate (action) of the ith relationship.
+
+The subjects and objects should be from this list:
+person
+bag
+bed
+blanket
+book
+box
+broom
+chair
+closetcabinet
+clothes
+cupglassbottle
+dish
+door
+doorknob
+doorway
+floor
+food
+groceries
+laptop
+light
+medicine
+mirror
+papernotebook
+phonecamera
+picture
+pillow
+refrigerator
+sandwich
+shelf
+shoe
+sofacouch
+table
+television
+towel
+vacuum
+window
+
+The predicates should be from this list:
+lookingat
+notlookingat
+unsure
+above
+beneath
+infrontof
+behind
+onthesideof
+in
+carrying
+coveredby
+drinkingfrom
+eating
+haveitontheback
+holding
+leaningon
+lyingon
+notcontacting
+otherrelationship
+sittingon
+standingon
+touching
+twisting
+wearing
+wiping
+writingon
